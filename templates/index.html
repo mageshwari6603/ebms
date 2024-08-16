@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload and Processing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="file"], input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        .form-section.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload File</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <div class="form-section">
+            <label for="file">Select File:</label>
+            <input type="file" name="file" id="file">
+        </div>
+        <input type="submit" value="Upload">
+    </form>
+ 
+    <h1>Process File</h1>
+    <form action="/process" method="get">
+        <div class="form-section">
+            <label for="option">Select Option:</label>
+            <select name="option" id="option">
+                <option value="error">Errors</option>
+                <option value="queries">SQL Queries</option>
+                <option value="transaction">Transactions</option>
+            </select>
+        </div>
+        <div id="transaction-fields" class="form-section hidden">
+            <label for="request_id">Request ID:</label>
+            <input type="text" id="request_id" name="request_id">
+        </div>
+        <div id="queries-fields" class="form-section hidden">
+            <label for="min_time">Minimum Execution Time:</label>
+            <input type="number" step="0.01" id="min_time" name="min_time">
+        </div>
+        <input type="submit" value="Process">
+    </form>
+ 
+    <script>
+        document.getElementById('option').addEventListener('change', function() {
+            var value = this.value;
+            document.getElementById('transaction-fields').classList.toggle('hidden', value !== 'transaction');
+            document.getElementById('queries-fields').classList.toggle('hidden', value !== 'queries');
+        });
+    </script>
+</body>
+</html>
